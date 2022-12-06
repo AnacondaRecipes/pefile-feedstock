@@ -1,5 +1,5 @@
 {% set name = "pefile" %}
-{% set version = "2019.4.18" %}
+{% set version = "2022.5.30" %}
 {% set hash_type = "sha256" %}
 {% set hash = "a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645" %}
 
@@ -13,8 +13,8 @@ source:
   {{ hash_type }}: {{ hash }}
 
 build:
-  noarch: python
   number: 0
+  skip: true  # [py<36]
   script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
@@ -22,9 +22,9 @@ requirements:
     - pip
     - python
     - setuptools
+    - wheel
   run:
     - python
-    - future
 
 test:
   imports:
