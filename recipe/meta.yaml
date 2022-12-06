@@ -42,6 +42,8 @@ about:
   license_family: MIT
   license_file: LICENSE
   summary: pefile is a Python module to read and work with PE (Portable Executable) files
+  dev_url: https://github.com/erocarrera/pefile
+  doc_url: https://github.com/erocarrera/pefile/blob/master/README.md
 
 extra:
   recipe-maintainers:
