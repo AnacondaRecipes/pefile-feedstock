@@ -1,7 +1,7 @@
 {% set name = "pefile" %}
-{% set version = "2019.4.18" %}
+{% set version = "2022.5.30" %}
 {% set hash_type = "sha256" %}
-{% set hash = "a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645" %}
+{% set hash = "a5488a3dd1fd021ce33f969780b88fe0f7eebb76eb20996d7318f307612a045b" %}
 
 package:
   name: {{ name }}
@@ -13,20 +13,25 @@ source:
   {{ hash_type }}: {{ hash }}
 
 build:
-  noarch: python
   number: 0
+  skip: true  # [py<36]
   script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
-  build:
+  host:
     - pip
     - python
     - setuptools
+    - wheel
   run:
     - python
     - future
 
 test:
+  requires:
+    - pip
+  commands:
+    - pip check
   imports:
     - pefile
     - peutils
@@ -35,8 +40,16 @@ test:
 about:
   home: https://github.com/erocarrera/pefile
   license: MIT
+  license_family: MIT
   license_file: LICENSE
   summary: pefile is a Python module to read and work with PE (Portable Executable) files
+  description: |
+    pefile is a Python module to read and work with PE (Portable Executable) files.
+    The structures defined in the Windows header files will be accessible as attributes
+    in the PE instance. The naming of fields/attributes will try to adhere to the naming
+    scheme in those headers. Only shortcuts added for convenience will depart from that convention.
+  dev_url: https://github.com/erocarrera/pefile
+  doc_url: https://github.com/erocarrera/pefile/blob/master/README.md
 
 extra:
   recipe-maintainers:
