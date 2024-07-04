@@ -1,21 +1,18 @@
 {% set name = "pefile" %}
-{% set version = "2022.5.30" %}
-{% set hash_type = "sha256" %}
-{% set hash = "a5488a3dd1fd021ce33f969780b88fe0f7eebb76eb20996d7318f307612a045b" %}
+{% set version = "2023.2.7" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  {{ hash_type }}: {{ hash }}
+  url: https://github.com/erocarrera/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 0748ae46a3b93c5d393620c827874266c86ac81f52bf25fc08e7e95efff9e8f0
 
 build:
   number: 0
   skip: true  # [py<36]
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
 
 requirements:
   host:
@@ -25,7 +22,6 @@ requirements:
     - wheel
   run:
     - python
-    - future
 
 test:
   requires:
