@@ -1,13 +1,13 @@
 {% set name = "pefile" %}
-{% set version = "2023.2.7" %}
+{% set version = "2024.8.26" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 82e6114004b3d6911c77c3953e3838654b04511b8b66e8583db70c65998017dc
+  url: https://github.com/erocarrera/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 116ec29b689ea4f0ede7327ebbd794ce8977e5eaa97565393441d3404deecda3
 
 build:
   number: 0
@@ -23,15 +23,23 @@ requirements:
   run:
     - python
 
+# E FileNotFoundError: [Errno 2] No such file or directory: 'tests/test_files/MSVBVM60.DLL'
+{% set ignore_tests = "--ignore=tests/pefile_test.py" %}
+
 test:
-  requires:
-    - pip
-  commands:
-    - pip check
+  source_files:
+    - tests
   imports:
     - pefile
     - peutils
     - ordlookup
+  requires:
+    - pip
+    - pytest
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest tests {{ ignore_tests }}
 
 about:
   home: https://github.com/erocarrera/pefile
